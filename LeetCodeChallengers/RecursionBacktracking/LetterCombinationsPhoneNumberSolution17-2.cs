@@ -1,4 +1,7 @@
-﻿namespace LeetCodeChallengers.RecursionBacktracking;
+﻿using System.Diagnostics.Metrics;
+using System.Text;
+
+namespace LeetCodeChallengers.RecursionBacktracking;
 
 /*
  * 17. Letter Combinations of a Phone Number
@@ -49,11 +52,10 @@ public class LetterCombinationsPhoneNumberSolution17_2
 
     public IList<string> LetterCombinations(string digits)
     {
-        var result = new List<string>();
-        return LetterCombinations(digits, 0, result);
+        return LetterCombinations(digits, 0, new List<StringBuilder>()).Select(sb => sb.ToString()).ToList();
     }
 
-    private IList<string> LetterCombinations(string digits, int digitIndex, IList<string> oldResult)
+    private IList<StringBuilder> LetterCombinations(string digits, int digitIndex, IList<StringBuilder> oldResult)
     {
         if (digitIndex >= digits.Length)
         {
@@ -62,19 +64,29 @@ public class LetterCombinationsPhoneNumberSolution17_2
 
         var digit = digits[digitIndex];
 
-        var result = new List<string>();
         var letters = _digitsMap[digit];
 
         if (oldResult.Count == 0 && letters.Count > 0)
         {
-            oldResult.Add("");
+            oldResult.Add(new StringBuilder());
         }
 
-        foreach (var item in oldResult)
+        var result = new List<StringBuilder>();
+
+        while (oldResult.Any())
         {
-            foreach (var letter in letters)
+            var item = oldResult[0];
+            oldResult.RemoveAt(0);
+            for (var index = 0; index < letters.Count; index++)
             {
-                result.Add($"{item}{letter}");
+                if (index == letters.Count - 1)
+                {
+                    result.Add(item.Append(letters[index]));
+                }
+                else
+                {
+                    result.Add(new StringBuilder().Append(item).Append(letters[index]));
+                }
             }
         }
 
