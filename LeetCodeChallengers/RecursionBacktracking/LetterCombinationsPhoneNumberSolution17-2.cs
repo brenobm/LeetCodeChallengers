@@ -58,19 +58,19 @@ public class LetterCombinationsPhoneNumberSolution17_2
         {
             var letters = _digitsMap[digits[digitIndex]];
 
-            if (!letters.Any())
+            if (letters.Length == 0)
             {
                 continue;
             }
 
-            if (!result.Any())
+            if (result.Count == 0)
             {
                 result.Add(new StringBuilder());
             }
 
             var tempList = new List<StringBuilder>();
 
-            while (result.Any())
+            while (result.Count != 0)
             {
                 var item = result[0];
                 result.RemoveAt(0);
