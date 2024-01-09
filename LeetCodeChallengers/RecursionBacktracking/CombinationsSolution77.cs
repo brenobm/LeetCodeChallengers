@@ -1,4 +1,5 @@
-﻿namespace LeetCodeChallengers.RecursionBacktracking;
+﻿
+namespace LeetCodeChallengers.RecursionBacktracking;
 
 /*
  * 77. Combinations
@@ -25,48 +26,26 @@ public class CombinationsSolution77
 {
     public IList<IList<int>> Combine(int n, int k)
     {
-        var result = new HashSet<HashSet<int>>();
+        var result = new List<IList<int>>();
 
-        for (int i = 0; i < k; i++)
+        Combine(n, k, 1, new List<int>(), result);
+
+        return result;
+    }
+
+    private static void Combine(int n, int k, int start, List<int> combination, List<IList<int>> result)
+    {
+        if (combination.Count == k)
         {
-            var first = result.Count == 0;
-            if (first)
-            {
-                for (int j = 1; j <= n; j++)
-                {
-
-                    result.Add(new() { j });
-                }
-            }
-            else
-            {
-                var tmp = new HashSet<HashSet<int>>();
-                foreach (var set in result)
-                {
-                    for (int j = 1; j <= n; j++)
-                    {
-                        if (j == n)
-                        {
-                            set.Add(j);
-                            tmp.Add(set);
-                        }
-                        else
-                        {
-                            if (set.Last() < j)
-                            {
-                                var newSet = new HashSet<int>(set)
-                                {
-                                    j
-                                };
-                                tmp.Add(newSet);
-                            }
-                        }
-                    }
-                }
-
-                result = tmp;
-            }
+            result.Add(new List<int>(combination));
+            return;
         }
-        return result.Where(s => s.Count == k).Select(s => s.ToList() as IList<int>).ToList();
+
+        for (int i = start; i <= n; i++)
+        {
+            combination.Add(i);
+            Combine(n, k, i + 1, combination, result);
+            combination.RemoveAt(combination.Count - 1);
+        }
     }
 }
