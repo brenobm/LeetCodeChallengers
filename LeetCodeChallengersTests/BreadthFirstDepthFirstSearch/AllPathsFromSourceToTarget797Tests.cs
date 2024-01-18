@@ -7,49 +7,48 @@ public class AllPathsFromSourceToTarget797Tests
 {
     private AllPathsFromSourceToTarget797 sut = new AllPathsFromSourceToTarget797();
 
-    [Fact]
-    public void Test1()
+    public static IEnumerable<object[]> GetTestData =>
+    new List<object[]>
     {
-        var result = sut.AllPathsSourceTarget(
-            new int[][]
-            {
-                new int[] { 1, 2 },
-                new int[] { 3 },
-                new int[] { 3 },
-                new int[] { }
-            }
-        );
+            new object[] { 
+                new int[][]
+                {
+                    [1, 2],
+                    [3],
+                    [3],
+                    []
+                },
+                new List<List<int>>
+                {
+                    new() { 0, 1, 3 },
+                    new() { 0, 2, 3 }
+            }},
+            new object[] {
+                new int[][]
+                {
+                    [4, 3, 1],
+                    [3, 2, 4],
+                    [3],
+                    [4],
+                    []
+                },
+                new List<List<int>>
+                {
+                    new() { 0, 4 },
+                    new() { 0, 3, 4 },
+                    new() { 0, 1, 3, 4 },
+                    new() { 0, 1, 2, 3, 4 },
+                    new() { 0, 1, 4 }
+                }
+            },
+    };
 
-        result.Should().BeEquivalentTo(
-            new List<List<int>>
-            {
-                new List<int> { 0, 1, 3 },
-                new List<int> { 0, 2, 3 }
-            });
-    }
 
-    [Fact]
-    public void Test2()
+    [Theory, MemberData(nameof(GetTestData))]
+    public void Test(int[][] input, List<List<int>> output)
     {
-        var result = sut.AllPathsSourceTarget(
-            new int[][]
-            {
-                new int[] { 4, 3, 1 },
-                new int[] { 3, 2, 4 },
-                new int[] { 3 },
-                new int[] { 4 },
-                new int[] { }
-            }
-        );
+        var result = sut.AllPathsSourceTarget(input);
 
-        result.Should().BeEquivalentTo(
-            new List<List<int>>
-            {
-                new List<int> { 0, 4 },
-                new List<int> { 0, 3, 4 },
-                new List<int> { 0, 1, 3, 4 },
-                new List<int> { 0, 1, 2, 3, 4 },
-                new List<int> { 0, 1, 4 }
-            });
+        result.Should().BeEquivalentTo(output);
     }
 }

@@ -7,31 +7,20 @@ public class ZigzagConversionSolution6Tests
 {
     private readonly ZigzagConversionSolution6 sut = new ZigzagConversionSolution6();
 
-    [Fact]
-    public void Test1()
+    public static IEnumerable<object[]> GetTestData =>
+    new List<object[]>
     {
-        var result = sut.Convert("PAYPALISHIRING", 3);
-        result.Should().Be("PAHNAPLSIIGYIR");
-    }
+            new object[] { "PAYPALISHIRING", 3, "PAHNAPLSIIGYIR" },
+            new object[] { "PAYPALISHIRING", 4, "PINALSIGYAHRPI" },
+            new object[] { "A", 1, "A" },
+            new object[] { "ABCD", 2, "ACBD" },
+    };
 
-    [Fact]
-    public void Test2()
-    {
-        var result = sut.Convert("PAYPALISHIRING", 4);
-        result.Should().Be("PINALSIGYAHRPI");
-    }
 
-    [Fact]
-    public void Test3()
+    [Theory, MemberData(nameof(GetTestData))]
+    public void Test(string input1, int input2, string output)
     {
-        var result = sut.Convert("A", 1);
-        result.Should().Be("A");
-    }
-
-    [Fact]
-    public void Test4()
-    {
-        var result = sut.Convert("ABCD", 2);
-        result.Should().Be("ACBD");
+        var result = sut.Convert(input1, input2);
+        result.Should().Be(output);
     }
 }

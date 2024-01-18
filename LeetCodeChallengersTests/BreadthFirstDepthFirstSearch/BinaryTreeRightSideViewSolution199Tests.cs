@@ -7,54 +7,54 @@ public class BinaryTreeRightSideViewSolution199Tests
 {
     private readonly BinaryTreeRightSideViewSolution199 sut = new BinaryTreeRightSideViewSolution199();
 
-    [Fact]
-    public void Test1()
+    public static IEnumerable<object[]> GetTestData =>
+    new List<object[]>
     {
-        var tree = new TreeNode
-        {
-            val = 1,
-            left = new TreeNode
-            {
-                val = 2,
-                right = new TreeNode
+            new object[] {
+                new TreeNode
                 {
-                    val = 5
+                    val = 1,
+                    left = new TreeNode
+                    {
+                        val = 2,
+                        right = new TreeNode
+                        {
+                            val = 5
+                        },
+                    },
+                    right = new TreeNode
+                    {
+                        val = 3,
+                        right = new TreeNode
+                        {
+                            val = 4
+                        },
+                    },
                 },
+                new List<int> { 1, 3, 4 },
             },
-            right = new TreeNode
-            {
-                val = 3,
-                right = new TreeNode
+            new object[] {
+                new TreeNode
                 {
-                    val = 4
+                    val = 1,
+                    right = new TreeNode
+                    {
+                        val = 3,
+                    },
                 },
+                new List<int> { 1, 3 },
             },
-        };
-
-        var result = sut.RightSideView(tree);
-        result.Should().BeEquivalentTo(new List<int> { 1, 3, 4 });
-    }
-
-    [Fact]
-    public void Test2()
-    {
-        var tree = new TreeNode
-        {
-            val = 1,
-            right = new TreeNode
-            {
-                val = 3,
+            new object[] {
+                null,
+                new List<int>(),
             },
-        };
+    };
 
-        var result = sut.RightSideView(tree);
-        result.Should().BeEquivalentTo(new List<int> { 1, 3 });
-    }
 
-    [Fact]
-    public void Test3()
+    [Theory, MemberData(nameof(GetTestData))]
+    public void Test1(TreeNode input, IList<int> output)
     {
-        var result = sut.RightSideView(null);
-        result.Should().BeEquivalentTo(new List<int>());
+        var result = sut.RightSideView(input);
+        result.Should().BeEquivalentTo(output);
     }
 }
