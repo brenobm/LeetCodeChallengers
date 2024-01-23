@@ -7,70 +7,70 @@ public class MergeKSortedListsSolution23Tests
 {
     private readonly MergeKSortedListsSolution23 sut = new MergeKSortedListsSolution23();
 
-    [Fact]
-    public void Test1()
-    {
-        var lists = new ListNode[3]
+    public static IEnumerable<object[]> GetTestData =>
+        new List<object[]>
         {
-            new ListNode
+            new object[]
             {
-                val = 1,
-                next = new()
+                new ListNode[3]
                 {
-                    val = 4,
-                    next = new()
+                    new() 
                     {
-                        val = 5,
+                        val = 1,
+                        next = new()
+                        {
+                            val = 4,
+                            next = new()
+                            {
+                                val = 5,
+                            },
+                        },
+                    },
+                    new() 
+                    {
+                        val = 1,
+                        next = new()
+                        {
+                            val = 3,
+                            next = new()
+                            {
+                                val = 4,
+                            },
+                        },
+                    },
+                    new() 
+                    {
+                        val = 2,
+                        next = new()
+                        {
+                            val = 6,
+                        },
                     },
                 },
-            },
-            new ListNode
-            {
-                val = 1,
-                next = new()
+                new int[]
                 {
-                    val = 3,
-                    next = new()
-                    {
-                        val = 4,
-                    },
+                    1, 1, 2, 3, 4, 4, 5, 6
                 },
             },
-            new ListNode
+            new object[]
             {
-                val = 2,
-                next = new()
-                {
-                    val = 6,
-                },
+                Array.Empty<ListNode>(),
+                Array.Empty<int>(),
             },
-        };
+            new object[]
+            {
+                new ListNode[] { null },
+                Array.Empty<int>(),
+            },
+    };
 
-        var result = sut.MergeKLists(lists);
 
-        ValidateListNode(result, [1, 1, 2, 3, 4, 4, 5, 6]);
-    }
-
-    [Fact]
-    public void Test2()
+    [Theory, MemberData(nameof(GetTestData))]
+    public void Test(ListNode[] input, int[] output)
     {
-        var lists = new ListNode[0];
+        var result = sut.MergeKLists(input);
 
-        var result = sut.MergeKLists(lists);
-
-        ValidateListNode(result, []);
-    }
-
-
-
-    [Fact]
-    public void Test3()
-    {
-        var lists = new ListNode[1] { null };
-
-        var result = sut.MergeKLists(lists);
-
-        ValidateListNode(result, []);
+        ValidateListNode(result, output);
     }
 
     private static void ValidateListNode(ListNode linkedList, int[] values)
